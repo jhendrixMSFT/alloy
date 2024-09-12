@@ -140,3 +140,23 @@ it("declares class with invalid members", () => {
     "can't define an enum member outside of an enum scope",
   );
 });
+
+it("declares class with some members", () => {
+  const res = utils.toSourceText(
+    <csharp.Class accessModifier='public' name="TestClass">
+      <csharp.ClassMember accessModifier="public" name="MemberOne" type="string" />
+      <csharp.ClassMember accessModifier="private" name="MemberTwo" type="int" />
+    </csharp.Class>,
+  );
+
+  expect(res).toBe(coretest.d`
+    namespace TestCode
+    {
+      public class TestClass
+      {
+        public string memberOne;
+        private int memberTwo;
+      }
+    }
+  `);
+});
